@@ -37,11 +37,11 @@ export class SplashScreen extends React.Component {
         clearInterval(this.timer);
         setTimeout(() => {
           StatusBar.setHidden(false, 'slide');
-          let toHome = NavigationActions.reset({
+          let toLogin = NavigationActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: 'Home'})]
+            actions: [NavigationActions.navigate({routeName: 'Login'})]
           });
-          this.props.navigation.dispatch(toHome)
+          this.props.navigation.dispatch(toLogin)
         }, timeFrame);
       } else {
         let random = Math.random() * 0.5;
