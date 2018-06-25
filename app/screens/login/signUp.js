@@ -1,40 +1,43 @@
 import React from 'react';
 import {
-  View,
+    View,
     Alert,
     ScrollView,
-  Image,
-  Keyboard
+    Image,
+    Keyboard
 } from 'react-native';
 import {
-  RkButton,
-  RkText,
-  RkTextInput,
-  RkStyleSheet,
-  RkTheme,
-  RkAvoidKeyboard
+    RkButton,
+    RkText,
+    RkTextInput,
+    RkStyleSheet,
+    RkTheme,
+    RkAvoidKeyboard
 } from 'react-native-ui-kitten';
 import {GradientButton} from '../../components/';
 import {scale, scaleModerate, scaleVertical} from '../../utils/scale';
 import {data} from '../../data'
 import {LoginV1} from "./login1";
+
+import {LoadingIndicator} from ' ../../components/loadingIndicator'
+
 export class SignUp extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+    static navigationOptions = {
+        header: null
+    };
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state={
-        name:'',
-        surname:'',
-        email:'',
-        password:'',
-        passwordConfrim:'',
+        this.state={
+            name:'',
+            surname:'',
+            email:'',
+            password:'',
+            passwordConfrim:'',
+        }
+
     }
-
-  }
 
 
 
@@ -80,6 +83,7 @@ export class SignUp extends React.Component {
     }
 
     render() {
+        let {loading} = this.state;
         let renderIcon = () => {
             if (RkTheme.current.name === 'light')
                 return <Image style={styles.image} source={require('../../assets/images/logo.png')}/>;
@@ -118,7 +122,7 @@ export class SignUp extends React.Component {
                             placeholder='Confirm Password'
                             secureTextEntry={true}
                             onChangeText={(passwordConfrim) => this.setState({passwordConfrim})}/>
-
+                        <LoadingIndicator loading={loading}/>
                         <GradientButton style={styles.save} rkType='large' text='SIGN UP'
                                         onPress={() => this.signUp()}/>
                     </View>

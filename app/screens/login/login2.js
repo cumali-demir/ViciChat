@@ -16,6 +16,7 @@ import {RkTheme} from 'react-native-ui-kitten';
 import {scale, scaleModerate, scaleVertical} from '../../utils/scale';
 import {NavigationActions} from "react-navigation";
 import {data} from '../../data'
+import LoadingIndicator from '../../components/loadingIndicator'
 
 export class LoginV2 extends React.Component {
   static navigationOptions = {
@@ -50,7 +51,7 @@ export class LoginV2 extends React.Component {
       );
   }
   render() {
-      let user ={};
+      let {loading} = this.state;
     let renderIcon = () => {
       if (RkTheme.current.name === 'light')
         return <Image style={styles.image} source={require('../../assets/images/logo.png')}/>;
@@ -74,6 +75,7 @@ export class LoginV2 extends React.Component {
 
             <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry={true}
                          onChangeText={(password) => this.setState({password})}/>
+              <LoadingIndicator loading={loading}/>
 
               <GradientButton style={styles.save} rkType='large' text='LOGIN'
                               onPress={() => this.login(user)}/>

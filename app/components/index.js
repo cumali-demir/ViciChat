@@ -12,3 +12,5 @@ export * from './navBar';
 export * from './paginationIndicator';
 export * from './passwordTextInput';
 export * from './cardInput';
+export * from './loadingIndicator'
+export * from './loadingWrapper'

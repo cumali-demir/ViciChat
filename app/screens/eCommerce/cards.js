@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 import {
   RkText,
-  RkCard,
-  RkButton,
+    RkCard,
+    RkButton,
   RkStyleSheet,
   RkTheme
 } from 'react-native-ui-kitten';
+
 import {LinearGradient} from 'react-native-linear-gradient';
 import {data} from '../../data';
 import {PasswordTextInput} from '../../components/passwordTextInput';
