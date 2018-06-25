@@ -5,6 +5,7 @@ import notifications from './raw/notifications'
 import conversations from './raw/conversations'
 import cards from './raw/cards'
 import _ from 'lodash'
+import {AuthService} from "./services/auth";
 
 class DataProvider {
 
@@ -48,6 +49,21 @@ class DataProvider {
   populateData() {
     populate();
   }
+
+
+
+
+  ///////////////////////////
+
+    signUp(email,password){
+      return AuthService.signUpService(email,password)
+    }
+    login(email,password){
+        return AuthService.loginService(email,password)
+    }
+    logout(){
+        return AuthService.logOutService()
+    }
 }
 
 export let data = new DataProvider();
