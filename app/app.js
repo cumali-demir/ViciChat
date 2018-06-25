@@ -11,6 +11,8 @@ import track from './config/analytics';
 import {data} from './data'
 // import {AppLoading, Font} from 'expo';
 import {View} from "react-native";
+import * as firebase from "firebase";
+
 
 bootstrap();
 data.populateData();
@@ -55,11 +57,21 @@ const KittenApp = StackNavigator({
 
 export default class App extends React.Component {
 
+
+    componentDidMount(){
+        var config = {
+            apiKey: "AIzaSyDYAW2X94S99eONQD6xiZ0JhaQEjI-NSPM",
+            authDomain: "vicichat-55ff5.firebaseapp.com",
+            databaseURL: "https://vicichat-55ff5.firebaseio.com",
+            projectId: "vicichat-55ff5",
+            storageBucket: "vicichat-55ff5.appspot.com",
+            messagingSenderId: "472997886109"
+        };
+        firebase.initializeApp(config);
+    }
   render() {
 
-      componentDidMount(){
-          
-      }
+
 
     return (
       <View style={{flex: 1}}>
