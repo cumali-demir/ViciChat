@@ -14,6 +14,8 @@ import {FontAwesome} from '../../assets/icons';
 import {GradientButton} from '../../components/gradientButton';
 import {RkTheme} from 'react-native-ui-kitten';
 import {scale, scaleModerate, scaleVertical} from '../../utils/scale';
+import {NavigationActions} from "react-navigation";
+import {data} from '../../data'
 
 export class LoginV2 extends React.Component {
   static navigationOptions = {
@@ -22,9 +24,33 @@ export class LoginV2 extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state={
+        email:'',
+        password:'',
+    }
   }
 
+  login(){
+
+      let {email,password} = this.state;
+   this.setState({loading:true});
+      data.login(email,password).then(
+          success => {
+              this.setState({loading:false,error:false});
+              let toHome = NavigationActions.reset({
+                  index: 0,
+                  actions: [NavigationActions.navigate({routeName: 'Home'})]
+              });
+              this.props.navigation.dispatch(toHome)
+          },
+          error=>{
+              this.setState({loading:false,error:true});
+                alert(error || 'Unexpected Error');
+          }
+      );
+  }
   render() {
+      let user ={};
     let renderIcon = () => {
       if (RkTheme.current.name === 'light')
         return <Image style={styles.image} source={require('../../assets/images/logo.png')}/>;
@@ -43,11 +69,14 @@ export class LoginV2 extends React.Component {
         </View>
         <View style={styles.content}>
           <View>
-            <RkTextInput rkType='rounded' placeholder='Username'/>
-            <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry={true}/>
-              <GradientButton style={styles.save} rkType='large' text='LOGIN' onPress={() => {
-                  this.props.navigation.goBack()
-              }}/>
+            <RkTextInput rkType='rounded' placeholder='Username'
+                         onChangeText={(email) => this.setState({email})}/>
+
+            <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry={true}
+                         onChangeText={(password) => this.setState({password})}/>
+
+              <GradientButton style={styles.save} rkType='large' text='LOGIN'
+                              onPress={() => this.login(user)}/>
           </View>
           <View style={styles.buttons}>
             <RkButton style={styles.button} rkType='social'>
