@@ -32,6 +32,16 @@ function getCurrentRouteName(navigationState) {
   return route.routeName;
 }
 
+let Drawer = DrawerNavigator({
+        ...AppRoutes,
+    },
+    {
+        drawerOpenRoute: 'DrawerOpen',
+        drawerCloseRoute: 'DrawerClose',
+        drawerToggleRoute: 'DrawerToggle',
+        contentComponent: (props) => <SideMenu {...props}/>
+    })
+
 let SideMenu = withRkTheme(Screens.SideMenu);
 const KittenApp = StackNavigator({
   First: {
@@ -41,15 +51,7 @@ const KittenApp = StackNavigator({
         screen: Screens.LoginV2
     },
   Home: {
-    screen: DrawerNavigator({
-        ...AppRoutes,
-      },
-      {
-        drawerOpenRoute: 'DrawerOpen',
-        drawerCloseRoute: 'DrawerClose',
-        drawerToggleRoute: 'DrawerToggle',
-        contentComponent: (props) => <SideMenu {...props}/>
-      })
+    screen: (props) => <Drawer screenProps={{rootNavigation: props.navigation}}/>
   }
 }, {
   headerMode: 'none',

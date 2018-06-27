@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AsyncStorage,
   ScrollView,
   Dimensions,
 } from 'react-native';
@@ -8,6 +9,8 @@ import {
   RkText
 } from 'react-native-ui-kitten';
 import {MainRoutes} from '../../config/navigation/routes';
+import {data} from '../../data'
+import {NavigationActions} from "react-navigation";
 const paddingValue = 8;
 
 export class GridV1 extends React.Component {
@@ -28,6 +31,7 @@ export class GridV1 extends React.Component {
   render() {
     let size = this._calculateItemSize();
     let navigate = this.props.navigation.navigate;
+    let thisProps = this.props;
 
     let items = MainRoutes.map(function (route, index) {
       return (
@@ -36,7 +40,23 @@ export class GridV1 extends React.Component {
           style={{width: size, height: size}}
           key={index}
           onPress={() => {
-            navigate(route.id)
+              if (route.id === 'LogOut') {
+                  data.logout().then(
+                      success =>{
+
+                          let toLogin = NavigationActions.reset({
+                              index: 0,
+                              actions: [NavigationActions.navigate({routeName: 'Login'})]
+                          });
+
+                          thisProps.screenProps.rootNavigation.dispatch(toLogin);
+                      },
+                      error=>alert('beklenmeyen bir hata olustu')
+                  );
+
+              } else {
+                  navigate(route.id);
+              }
           }}>
 
           <RkText style={styles.icon} rkType='primary moon menuIcon'>
