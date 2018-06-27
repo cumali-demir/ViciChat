@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   Image,
+    AsyncStorage,
   Keyboard
 } from 'react-native';
 import {
@@ -16,7 +17,7 @@ import {RkTheme} from 'react-native-ui-kitten';
 import {scale, scaleModerate, scaleVertical} from '../../utils/scale';
 import {NavigationActions} from "react-navigation";
 import {data} from '../../data'
-import LoadingIndicator from '../../components/loadingIndicator'
+import {LoadingIndicator} from "../../components";
 
 export class LoginV2 extends React.Component {
   static navigationOptions = {
@@ -31,24 +32,45 @@ export class LoginV2 extends React.Component {
     }
   }
 
+  async componentDidMount(){
+      let email =   await AsyncStorage.getItem('email');
+      let password = await AsyncStorage.getItem('password');
+
+      console.log(email);
+
+      console.log(password);
+      if(email === null || password === null){
+          return;
+      }
+
+      this.setState({email,password});
+      this.login()
+  }
   login(){
 
-      let {email,password} = this.state;
-   this.setState({loading:true});
-      data.login(email,password).then(
-          success => {
-              this.setState({loading:false,error:false});
-              let toHome = NavigationActions.reset({
-                  index: 0,
-                  actions: [NavigationActions.navigate({routeName: 'Home'})]
-              });
-              this.props.navigation.dispatch(toHome)
-          },
-          error=>{
-              this.setState({loading:false,error:true});
-                alert(error || 'Unexpected Error');
-          }
-      );
+
+
+          let {email,password} = this.state;
+          this.setState({loading:true});
+          data.login(email,password).then(
+              success => {
+                  this.setState({loading:false,error:false});
+
+                  AsyncStorage.setItem('email', email);
+                  AsyncStorage.setItem('password', password);
+
+                  let toHome = NavigationActions.reset({
+                      index: 0,
+                      actions: [NavigationActions.navigate({routeName: 'Home'})]
+                  });
+                  this.props.navigation.dispatch(toHome)
+              },
+              error=>{
+                  this.setState({loading:false,error:true});
+                  alert(error || 'Unexpected Error');
+              }
+          );
+
   }
   render() {
       let {loading} = this.state;
@@ -58,6 +80,7 @@ export class LoginV2 extends React.Component {
       return <Image style={styles.image} source={require('../../assets/images/logoDark.png')}/>
     };
 
+    let {email,password} = this.state;
     return (
       <RkAvoidKeyboard
         style={styles.screen}
@@ -70,15 +93,19 @@ export class LoginV2 extends React.Component {
         </View>
         <View style={styles.content}>
           <View>
-            <RkTextInput rkType='rounded' placeholder='Username'
+            <RkTextInput rkType='rounded'
+                         value={email}
+                         placeholder='Username'
                          onChangeText={(email) => this.setState({email})}/>
 
-            <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry={true}
+            <RkTextInput rkType='rounded'
+                         value={password}
+                         placeholder='Password' secureTextEntry={true}
                          onChangeText={(password) => this.setState({password})}/>
               <LoadingIndicator loading={loading}/>
 
               <GradientButton style={styles.save} rkType='large' text='LOGIN'
-                              onPress={() => this.login(user)}/>
+                              onPress={() => this.login()}/>
           </View>
           <View style={styles.buttons}>
             <RkButton style={styles.button} rkType='social'>

@@ -17,9 +17,7 @@ import {
 import {GradientButton} from '../../components/';
 import {scale, scaleModerate, scaleVertical} from '../../utils/scale';
 import {data} from '../../data'
-import {LoginV1} from "./login1";
-
-import {LoadingIndicator} from ' ../../components/loadingIndicator'
+// import {LoadingIndicator} from ' ../../components/loadingIndicator'
 
 export class SignUp extends React.Component {
     static navigationOptions = {
@@ -122,7 +120,7 @@ export class SignUp extends React.Component {
                             placeholder='Confirm Password'
                             secureTextEntry={true}
                             onChangeText={(passwordConfrim) => this.setState({passwordConfrim})}/>
-                        <LoadingIndicator loading={loading}/>
+                        {/*<LoadingIndicator loading={loading}/>*/}
                         <GradientButton style={styles.save} rkType='large' text='SIGN UP'
                                         onPress={() => this.signUp()}/>
                     </View>
